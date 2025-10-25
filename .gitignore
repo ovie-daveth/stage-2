@@ -1,0 +1,11 @@
+node_modules/
+.env
+.DS_Store
+*.log
+cache/*.svg
+cache/*.png
+cache/*.jpg
+cache/*.jpeg
+.vscode/
+.idea/
+

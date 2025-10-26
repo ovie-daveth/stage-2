@@ -51,7 +51,7 @@ async function startServer() {
   try {
     await initializeDatabase();
     
-    app.listen(config.server.port, () => {
+    app.listen(config.server.port, '0.0.0.0', () => {
       console.log(`✓ Server running on port ${config.server.port}`);
       console.log(`✓ API available at http://localhost:${config.server.port}`);
     });

@@ -15,12 +15,13 @@ async function setupDatabase() {
     console.log('📦 Starting database setup...\n');
 
     // Connect without database first, with multi-statement support
+    // connection = await mysql.createConnection({
+    //   url: process.env.DATABASE_URL
+    // });
+
     connection = await mysql.createConnection({
-      host: process.env.DB_HOST || 'localhost',
-      user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || '',
-      port: process.env.DB_PORT || 3306,
-      multipleStatements: true  // Enable multi-statement support
+      uri: process.env.DATABASE_URL,
+      multipleStatements: true, // ✅ allows running multiple CREATE statements
     });
 
     console.log('✓ Connected to MySQL server');
@@ -83,3 +84,44 @@ async function setupDatabase() {
 
 setupDatabase();
 
+
+// const mysql = require('mysql2/promise');
+// const fs = require('fs');
+// const path = require('path');
+// require('dotenv').config();
+
+// async function setupDatabase() {
+//   let connection;
+
+//   try {
+//     console.log('📦 Starting database setup...\n');
+
+//     // Connect using the connection string
+//     connection = await mysql.createConnection(process.env.DATABASE_URL);
+//     console.log('✓ Connected to MySQL server');
+
+//     const dbName = 'country_currency_db';
+
+//     // Create DB if not exists and select it
+//     await connection.query(`CREATE DATABASE IF NOT EXISTS ${dbName}`);
+//     await connection.changeUser({ database: dbName });
+//     console.log(`✓ Using database: ${dbName}`);
+
+//     // Read and execute schema
+//     const schemaPath = path.join(__dirname, 'database', 'schema.sql');
+//     const schema = fs.readFileSync(schemaPath, 'utf8');
+//     console.log(`✓ Reading schema file: ${schemaPath}`);
+
+//     await connection.query(schema);
+//     console.log('✓ Schema executed successfully');
+
+//     console.log('\n✅ Database setup complete!');
+//   } catch (error) {
+//     console.error('\n❌ Error setting up database:', error.message);
+//     process.exit(1);
+//   } finally {
+//     if (connection) await connection.end();
+//   }
+// }
+
+// setupDatabase();
